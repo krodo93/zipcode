@@ -17,6 +17,10 @@ class CreateSettlementsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('zone_type');
+            $table->string('codes');
+            $table->unsignedBigInteger('federal_entity_id');
+            $table->unsignedBigInteger('municipalities_id');
+            $table->unsignedBigInteger('settlements_type_id');
             $table->timestamps();
         });
     }

@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Settlements extends Model
 {
     use HasFactory;
-    
-    protected $fillable = ['name','zone_type'];
+
+    protected $guarded = [''];
 }
