@@ -19,10 +19,11 @@ class ZipCodesController extends Controller
        
         $collect = collect([
             'zip_code' => $first->d_codigo,
-            'locality' => strtoupper($first->d_estado),
+            'locality' => strtoupper($first->d_ciudad),
             'federal_entity' => [
                 'key' => (int)$first->c_estado,
-                'name' => strtoupper($first->d_estado)
+                'name' => strtoupper($first->d_estado),
+                'code' => null
             ],
             'settlements' => collect($query)->map(function($item){
                 return [
