@@ -13,9 +13,22 @@ class CreateSettlementsTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('settlements_types', function (Blueprint $table) {
+        Schema::create('settlements', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('d_codigo');
+            $table->string('d_asenta');
+            $table->string('d_tipo_asenta');
+            $table->string('d_mnpio');
+            $table->string('d_estado');
+            $table->string('d_ciudad')->nullable();
+            $table->string('d_cp')->nullable();
+            $table->string('c_estado');
+            $table->string('c_oficina')->nullable();
+            $table->string('c_mnpio');
+            $table->string('c_tipo_asenta');
+            $table->string('id_asenta_cpcons');
+            $table->string('d_zona');
+            $table->string('d_cve_ciudad')->nullable();
             $table->timestamps();
         });
     }

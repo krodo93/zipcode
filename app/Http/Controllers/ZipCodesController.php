@@ -10,28 +10,34 @@ class ZipCodesController extends Controller
         if(is_null($code)){
             return 'Code Null';
         }
-        $settlements = DB::table('settlements')->where('codes',$code)->get();
-        if($settlements->count() === 0){
+        $query = DB::table('settlements')->where('d_codigo',$code)->get();
+        if($query->count() === 0){
             return 'No results';
         }
 
-        $zip_code = collect($settlements)->first();
-        $federal_entity = DB::table('federal_entities')->where('id',$zip_code->federal_entity_id)->select('id as key','name','code')->get()->first();
-        $municipality = DB::table('municipalities')->where('id',$zip_code->municipalities_id)->select('id as key','name')->get()->first();
-
+        $first = collect($query)->first();
+       
         $collect = collect([
-            'zip_code' => $zip_code->codes,
-            'locality' => $federal_entity->name,
-            'federal_entity' => $federal_entity,
-            'settlements' => collect($settlements)->map(function($item){
+            'zip_code' => $first->d_codigo,
+            'locality' => strtoupper($first->d_estado),
+            'federal_entity' => [
+                'key' => (int)$first->c_estado,
+                'name' => strtoupper($first->d_estado)
+            ],
+            'settlements' => collect($query)->map(function($item){
                 return [
-                    'key' => $item->id,
-                    'name' => $item->name,
-                    'zone_type' => $item->zone_type,
-                    'settlement_type' => DB::table('settlements_types')->where('id',$item->settlements_type_id)->select('name')->get()->first()
+                    'key' => (int) $item->id_asenta_cpcons,
+                    'name' => strtoupper($item->d_asenta),
+                    'zone_type' => strtoupper($item->d_zona),
+                    'settlement_type' => [
+                        'name' => strtoupper($item->d_tipo_asenta)
+                    ]
                 ];
             }),
-            'municipality' => $municipality,
+            'municipality' => [
+                'key' => (int)$first->c_mnpio,
+                'name' => strtoupper($first->d_mnpio)
+            ],
         ]);
         return response()->json($collect);
         
