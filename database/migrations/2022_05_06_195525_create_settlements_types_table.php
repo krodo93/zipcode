@@ -14,6 +14,9 @@ class CreateSettlementsTypesTable extends Migration
     public function up()
     {
         Schema::create('settlements', function (Blueprint $table) {
+            $table->charset = 'utf8';
+            $table->collation = 'utf8_general_ci';
+
             $table->id();
             $table->string('d_codigo');
             $table->string('d_asenta');

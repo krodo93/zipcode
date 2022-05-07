@@ -19,25 +19,25 @@ class ZipCodesController extends Controller
        
         $collect = collect([
             'zip_code' => $first->d_codigo,
-            'locality' => strtoupper($first->d_ciudad),
+            'locality' => $first->d_ciudad,
             'federal_entity' => [
                 'key' => (int)$first->c_estado,
-                'name' => strtoupper($first->d_estado),
+                'name' => $first->d_estado,
                 'code' => null
             ],
             'settlements' => collect($query)->map(function($item){
                 return [
                     'key' => (int) $item->id_asenta_cpcons,
-                    'name' => strtoupper($item->d_asenta),
-                    'zone_type' => strtoupper($item->d_zona),
+                    'name' => $item->d_asenta,
+                    'zone_type' => $item->d_zona,
                     'settlement_type' => [
-                        'name' => strtoupper($item->d_tipo_asenta)
+                        'name' => $item->d_tipo_asenta
                     ]
                 ];
             }),
             'municipality' => [
                 'key' => (int)$first->c_mnpio,
-                'name' => strtoupper($first->d_mnpio)
+                'name' => $first->d_mnpio
             ],
         ]);
         return response()->json($collect);
